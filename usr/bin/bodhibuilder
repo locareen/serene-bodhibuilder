@@ -1142,7 +1142,7 @@ FOO
 
     # make a new initial ramdisk including the casper scripts
     log_msg "Creating a new initial ramdisk for the live system"
-    mkinitramfs -o /boot/initrd.img-`uname -r` `uname -r`
+    mkinitramfs -o /boot/initrd.img-`readlink /vmlinuz | cut -c 14-` `readlink /vmlinuz | cut -c 14-`
 
 
     log_msg "Copying your kernel and initrd for the livecd"
@@ -1152,32 +1152,32 @@ FOO
     #~ if [ "${ARCH}" = "amd64" ] ; then
         #~ log_msg "Creating casper/vmlinuz.efi"
         # simply renaming it to vmlinuz.efi hasn't hurt anything so far:
-        #~ cp /boot/vmlinuz-`uname -r` ${WORKDIR}/ISOTMP/casper/vmlinuz.efi
+        #~ cp /boot/vmlinuz-`readlink /vmlinuz | cut -c 14-` ${WORKDIR}/ISOTMP/casper/vmlinuz.efi
     #~ else
         #~ log_msg "Creating casper/vmlinuz"
-        #~ cp /boot/vmlinuz-`uname -r` ${WORKDIR}/ISOTMP/casper/vmlinuz
+        #~ cp /boot/vmlinuz-`readlink /vmlinuz | cut -c 14-` ${WORKDIR}/ISOTMP/casper/vmlinuz
     #~ fi
     
     ## BOOT_FIRMWARE based:
     #~ if [ "${BOOT_FIRMWARE}" = "EFI" ] ; then
         #~ log_msg "Creating casper/vmlinuz.efi"
-        #~ cp /boot/vmlinuz-`uname -r` ${WORKDIR}/ISOTMP/casper/vmlinuz.efi
+        #~ cp /boot/vmlinuz-`readlink /vmlinuz | cut -c 14-` ${WORKDIR}/ISOTMP/casper/vmlinuz.efi
     #~ elif [ "${BOOT_FIRMWARE}" = "BIOS" ] ; then
         #~ log_msg "Creating casper/vmlinuz"
-        #~ cp /boot/vmlinuz-`uname -r` ${WORKDIR}/ISOTMP/casper/vmlinuz
+        #~ cp /boot/vmlinuz-`readlink /vmlinuz | cut -c 14-` ${WORKDIR}/ISOTMP/casper/vmlinuz
     #~ fi
     
     ## Just make it vmlinuz.efi:
     #   (As stated earlier, so far, vmlinuz.efi has not hurt anything 
     #    even if it's not a remaster in a UEFI booted system.)
     log_msg "Creating casper/vmlinuz.efi"
-    cp /boot/vmlinuz-`uname -r` ${WORKDIR}/ISOTMP/casper/vmlinuz.efi
+    cp /boot/vmlinuz-`readlink /vmlinuz | cut -c 14-` ${WORKDIR}/ISOTMP/casper/vmlinuz.efi
 
 
 
 
     # Copy initrd into casper
-    cp -v /boot/initrd.img-`uname -r` ${WORKDIR}/ISOTMP/casper/initrd.lz
+    cp -v /boot/initrd.img-`readlink /vmlinuz | cut -c 14-` ${WORKDIR}/ISOTMP/casper/initrd.lz
 
 
     ## Process to create initrd.lz from initrd.img... in casper
@@ -1185,7 +1185,7 @@ FOO
     # if /boot/initrd.img is in gzip format, some version
     # of this will have to be implemented
     #~ log_msg "Copying initrd.img to casper/initrd.gz"
-    #~ cp /boot/initrd.img-`uname -r` ${WORKDIR}/ISOTMP/casper/initrd.gz
+    #~ cp /boot/initrd.img-`readlink /vmlinuz | cut -c 14-` ${WORKDIR}/ISOTMP/casper/initrd.gz
     #~ gunzip ${WORKDIR}/ISOTMP/casper/initrd.gz #changes initrd.gz to initrd
     #~ mkdir ${WORKDIR}/ISOTMP/casper/tmpinitrd
     #~ currdir=${PWD}
